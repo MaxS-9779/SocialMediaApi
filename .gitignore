@@ -19,7 +19,7 @@ target/
 *.iml
 *.ipr
 
-###Игнорировать все propertie файлы
+###Игнорировать все properties файлы
 *.properties
 
 ### NetBeans ###
