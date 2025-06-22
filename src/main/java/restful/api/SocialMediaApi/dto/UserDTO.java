@@ -12,7 +12,6 @@ public class UserDTO {
     private String username;
 
     @NotNull(message = "Password should not be empty")
-    @Size(min = 5, max = 50, message = "Password must be more than 5 characters and less than 50")
     private String password;
 
     @NotNull(message = "Email should not be empty")

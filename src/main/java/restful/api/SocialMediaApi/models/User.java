@@ -5,7 +5,6 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-import lombok.Setter;
 
 import java.util.Date;
 
@@ -26,7 +25,6 @@ public class User {
 
     @Column(name = "password")
     @NotNull(message = "Password should not be empty")
-    @Size(min = 5, max = 50, message = "Password must be more than 5 characters and less than 50")
     private String password;
 
     @Column(name = "user_email")
