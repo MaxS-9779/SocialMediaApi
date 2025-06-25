@@ -4,16 +4,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import restful.api.SocialMediaApi.responces.AuthenticateErrorResponse;
-import restful.api.SocialMediaApi.responces.RegistrationErrorResponse;
-import restful.api.SocialMediaApi.responces.UserNotFoundExceptionResponse;
+import restful.api.SocialMediaApi.responces.ErrorResponse;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(RegistrationException.class)
-    private ResponseEntity<RegistrationErrorResponse> handlerException(RegistrationException ex) {
-        RegistrationErrorResponse response = new RegistrationErrorResponse(
+    private ResponseEntity<ErrorResponse> handlerException(RegistrationException ex) {
+        ErrorResponse response = new ErrorResponse(
                 ex.getMessage(),
                 System.currentTimeMillis()
         );
@@ -21,8 +19,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(AuthenticationException.class)
-    private ResponseEntity<AuthenticateErrorResponse> handlerException(AuthenticationException ex) {
-        AuthenticateErrorResponse response = new AuthenticateErrorResponse(
+    private ResponseEntity<ErrorResponse> handlerException(AuthenticationException ex) {
+        ErrorResponse response = new ErrorResponse(
                 ex.getMessage(),
                 System.currentTimeMillis()
         );
@@ -30,8 +28,26 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(UserNotFoundException.class)
-    private ResponseEntity<UserNotFoundExceptionResponse> handlerException(UserNotFoundException ex) {
-        UserNotFoundExceptionResponse response = new UserNotFoundExceptionResponse(
+    private ResponseEntity<ErrorResponse> handlerException(UserNotFoundException ex) {
+        ErrorResponse response = new ErrorResponse(
+                ex.getMessage(),
+                System.currentTimeMillis()
+        );
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(PostNotFoundException.class)
+    private ResponseEntity<ErrorResponse> handlerException(PostNotFoundException ex) {
+        ErrorResponse response = new ErrorResponse(
+                ex.getMessage(),
+                System.currentTimeMillis()
+        );
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(PostValidateException.class)
+    private ResponseEntity<ErrorResponse> handlerException(PostValidateException ex) {
+        ErrorResponse response = new ErrorResponse(
                 ex.getMessage(),
                 System.currentTimeMillis()
         );

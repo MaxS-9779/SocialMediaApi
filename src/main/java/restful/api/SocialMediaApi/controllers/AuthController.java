@@ -6,9 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import restful.api.SocialMediaApi.dto.UserDTO;
+import restful.api.SocialMediaApi.dto.user.UserDTO;
+import restful.api.SocialMediaApi.dto.auth.RegistrationLoginDTO;
 import restful.api.SocialMediaApi.mappers.UserMapper;
-import restful.api.SocialMediaApi.dto.UserResponseLoginAuthDTO;
 import restful.api.SocialMediaApi.security.JwtUtil;
 import restful.api.SocialMediaApi.services.UserService;
 import restful.api.SocialMediaApi.validators.UserValidator;
@@ -24,13 +24,13 @@ public class AuthController {
     }
 
     @PostMapping("/registration")
-    public ResponseEntity<UserResponseLoginAuthDTO> performRegistration(@Valid @RequestBody UserDTO userDTO,
-                                                                        BindingResult bindingResult) {
+    public ResponseEntity<RegistrationLoginDTO> performRegistration(@Valid @RequestBody UserDTO userDTO,
+                                                                    BindingResult bindingResult) {
         return ResponseEntity.ok(userService.save(userDTO, bindingResult));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserResponseLoginAuthDTO> performLogin(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<RegistrationLoginDTO> performLogin(@RequestBody UserDTO userDTO) {
         return ResponseEntity.ok(userService.login(userDTO));
     }
 }

@@ -6,18 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import restful.api.SocialMediaApi.dto.UserDTO;
-import restful.api.SocialMediaApi.dto.UserResponseDTO;
+import restful.api.SocialMediaApi.dto.user.UserDTO;
+import restful.api.SocialMediaApi.dto.auth.RegistrationLoginDTO;
+import restful.api.SocialMediaApi.dto.auth.UserResponseDTO;
 import restful.api.SocialMediaApi.exceptions.AuthenticationException;
 import restful.api.SocialMediaApi.exceptions.UserNotFoundException;
 import restful.api.SocialMediaApi.mappers.UserMapper;
-import restful.api.SocialMediaApi.dto.UserResponseLoginAuthDTO;
 import restful.api.SocialMediaApi.exceptions.RegistrationException;
 import restful.api.SocialMediaApi.models.User;
 import restful.api.SocialMediaApi.repositories.UserRepository;
@@ -57,7 +56,7 @@ public class UserService {
         return users.stream().map(userMapper::toUserResponseDTO).toList();
     }
 
-    public UserResponseDTO findById(long id) {
+    public UserResponseDTO findById(Long id) {
         User user = userRepository.findById(id).orElseThrow(()-> new UserNotFoundException("User with this id not found"));
         return userMapper.toUserResponseDTO(user);
     }
@@ -71,7 +70,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserResponseLoginAuthDTO save(UserDTO userDTO, BindingResult bindingResult) {
+    public RegistrationLoginDTO save(UserDTO userDTO, BindingResult bindingResult) {
         LOGGER.info("Saving userDTO: {},{},{}", userDTO.getPassword(), userDTO.getUsername(), userDTO.getEmail());
 
         User user = userMapper.toUser(userDTO);
@@ -93,14 +92,14 @@ public class UserService {
 
             userRepository.save(user);
 
-            UserResponseLoginAuthDTO userResponseLoginAuthDTO = userMapper.toUserResponseLoginAuthDTO(user);
-            userResponseLoginAuthDTO.setToken(jwtUtil.generateToken(user.getUsername()));
+            RegistrationLoginDTO registrationLoginDTO = userMapper.toUserResponseLoginAuthDTO(user);
+            registrationLoginDTO.setToken(jwtUtil.generateToken(user.getUsername()));
 
-            return userResponseLoginAuthDTO;
+            return registrationLoginDTO;
         }
     }
 
-    public UserResponseLoginAuthDTO login(UserDTO userDTO) {
+    public RegistrationLoginDTO login(UserDTO userDTO) {
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(userDTO.getUsername(), userDTO.getPassword());
         try {
@@ -109,18 +108,18 @@ public class UserService {
             throw new AuthenticationException("Invalid username or password");
         }
         User user = findByEmail(userDTO.getEmail()).orElse(null);
-        UserResponseLoginAuthDTO userResponseLoginAuthDTO = userMapper.toUserResponseLoginAuthDTO(userDTO);
+        RegistrationLoginDTO registrationLoginDTO = userMapper.toUserResponseLoginAuthDTO(userDTO);
 
         String token = jwtUtil.generateToken(userDTO.getUsername());
 
-        userResponseLoginAuthDTO.setToken(token);
-        userResponseLoginAuthDTO.setId(user.getId());
+        registrationLoginDTO.setToken(token);
+        registrationLoginDTO.setId(user.getId());
 
-        return userResponseLoginAuthDTO;
+        return registrationLoginDTO;
     }
 
     @Transactional
-    public void delete(long id) {
+    public void delete(Long id) {
         userRepository.deleteById(id);
     }
 }

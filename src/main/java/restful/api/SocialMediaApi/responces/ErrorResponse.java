@@ -9,7 +9,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class UserNotFoundExceptionResponse {
+public class ErrorResponse {
     private String message;
     private Long timestamp;
 }

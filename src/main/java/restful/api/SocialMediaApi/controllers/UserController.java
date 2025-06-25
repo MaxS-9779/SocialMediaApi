@@ -3,7 +3,7 @@ package restful.api.SocialMediaApi.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import restful.api.SocialMediaApi.dto.UserResponseDTO;
+import restful.api.SocialMediaApi.dto.auth.UserResponseDTO;
 import restful.api.SocialMediaApi.services.UserService;
 
 import java.util.List;
@@ -24,7 +24,7 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}")
-    public ResponseEntity<UserResponseDTO> show(@PathVariable int id) {
+    public ResponseEntity<UserResponseDTO> show(@PathVariable Long id) {
         return ResponseEntity.ok(userService.findById(id));
     }
 }

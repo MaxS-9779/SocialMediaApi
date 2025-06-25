@@ -4,9 +4,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.factory.Mappers;
-import restful.api.SocialMediaApi.dto.UserDTO;
-import restful.api.SocialMediaApi.dto.UserResponseDTO;
-import restful.api.SocialMediaApi.dto.UserResponseLoginAuthDTO;
+import restful.api.SocialMediaApi.dto.user.UserDTO;
+import restful.api.SocialMediaApi.dto.auth.RegistrationLoginDTO;
+import restful.api.SocialMediaApi.dto.auth.UserResponseDTO;
 import restful.api.SocialMediaApi.models.User;
 
 import java.util.List;
@@ -23,11 +23,11 @@ public interface UserMapper {
     UserDTO toDTO(User user);
 
     @Mapping(target = "token", ignore = true)
-    UserResponseLoginAuthDTO toUserResponseLoginAuthDTO(User user);
+    RegistrationLoginDTO toUserResponseLoginAuthDTO(User user);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "token", ignore = true)
-    UserResponseLoginAuthDTO toUserResponseLoginAuthDTO(UserDTO userDTO);
+    RegistrationLoginDTO toUserResponseLoginAuthDTO(UserDTO userDTO);
 
     UserResponseDTO toUserResponseDTO(User user);
 
