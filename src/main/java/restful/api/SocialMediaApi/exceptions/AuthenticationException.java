@@ -1,4 +1,4 @@
-package restful.api.SocialMediaApi.util;
+package restful.api.SocialMediaApi.exceptions;
 
 public class AuthenticationException extends RuntimeException {
     public AuthenticationException(String message) {

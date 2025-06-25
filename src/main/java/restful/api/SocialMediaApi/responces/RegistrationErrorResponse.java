@@ -1,4 +1,4 @@
-package restful.api.SocialMediaApi.util;
+package restful.api.SocialMediaApi.responces;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

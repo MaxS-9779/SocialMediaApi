@@ -1,19 +1,30 @@
 package restful.api.SocialMediaApi.controllers;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import restful.api.SocialMediaApi.dto.UserResponseDTO;
+import restful.api.SocialMediaApi.services.UserService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("")
 public class UserController {
+    private final UserService userService;
 
-    @GetMapping("/showUserInfo")
-    public String showUserInfo() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        System.out.println(userDetails.getUsername());
-        return userDetails.getUsername();
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @GetMapping("/users")
+    public ResponseEntity<List<UserResponseDTO>> index() {
+        return ResponseEntity.ok(userService.findAll());
+    }
+
+    @GetMapping("/users/{id}")
+    public ResponseEntity<UserResponseDTO> show(@PathVariable int id) {
+        return ResponseEntity.ok(userService.findById(id));
     }
 }

@@ -1,4 +1,4 @@
-package restful.api.SocialMediaApi.util;
+package restful.api.SocialMediaApi.responces;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class AuthenticateErrorResponse {
+public class UserNotFoundExceptionResponse {
     private String message;
     private Long timestamp;
 }
