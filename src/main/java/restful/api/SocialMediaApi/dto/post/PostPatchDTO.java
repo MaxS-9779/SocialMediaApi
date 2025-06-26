@@ -1,5 +1,6 @@
 package restful.api.SocialMediaApi.dto.post;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -11,11 +12,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
+@Schema(description = "Сущность поста, возвращаемая при обновлении поста, содержит краткую информацию о посте")
 public class PostPatchDTO {
-    @NotBlank(message = "Post header cannot be empty")
-    @Size(min = 5, max = 100, message = "Post header must be more than 5 characters and less than 100")
+    @Schema(description = "Заголовок поста", example = "About animals")
     private String header;
 
     @NotBlank(message = "Post body cannot be empty")
+    @Schema(description = "Тело поста", example = "Some interesting text about animals")
     private String body;
 }

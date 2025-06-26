@@ -1,4 +1,4 @@
-package restful.api.SocialMediaApi.config;
+package restful.api.SocialMediaApi.security;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import jakarta.servlet.FilterChain;
@@ -13,7 +13,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import restful.api.SocialMediaApi.security.JwtUtil;
 import restful.api.SocialMediaApi.services.UserDetailService;
 
 

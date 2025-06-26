@@ -1,11 +1,9 @@
 package restful.api.SocialMediaApi.exceptions;
 
-import com.auth0.jwt.exceptions.JWTVerificationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import restful.api.SocialMediaApi.config.JWTFilter;
 import restful.api.SocialMediaApi.responces.ErrorResponse;
 
 @ControllerAdvice
