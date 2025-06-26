@@ -1,5 +1,6 @@
 package restful.api.SocialMediaApi.controllers;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,11 +22,13 @@ public class UserController {
     }
 
     @GetMapping("/users")
+    @SecurityRequirement(name = "JWT")
     public ResponseEntity<List<UserResponseDTO>> index() {
         return ResponseEntity.ok(userService.findAll());
     }
 
     @GetMapping("/users/{id}")
+    @SecurityRequirement(name = "JWT")
     public ResponseEntity<UserResponseDTO> show(@PathVariable Long id) {
         return ResponseEntity.ok(userService.findById(id));
     }
