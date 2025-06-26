@@ -1,7 +1,6 @@
 package restful.api.SocialMediaApi.models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,4 +21,8 @@ public class Post {
 
     @Column(name = "post_body")
     private String body;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }

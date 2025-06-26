@@ -5,8 +5,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.Validator;
-import org.springframework.validation.annotation.Validated;
 import restful.api.SocialMediaApi.exceptions.PostNotFoundException;
+import restful.api.SocialMediaApi.exceptions.PostValidateException;
 import restful.api.SocialMediaApi.models.Post;
 import restful.api.SocialMediaApi.repositories.PostRepository;
 
@@ -22,12 +22,17 @@ public class PostValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return Post.class.equals(clazz);
+        return Post.class.isAssignableFrom(clazz);
     }
 
     @Override
     public void validate(Object target, Errors errors) {
         Post post = (Post) target;
+
+        if (errors.hasErrors()) {
+            throw new PostValidateException("Invalid query");
+        }
+
         if (postRepository.findByBody(post.getBody()).isPresent() && postRepository.findByHeader(post.getHeader()).isPresent()) {
             errors.rejectValue("body", "duplicate", "This post already exists");
         }
