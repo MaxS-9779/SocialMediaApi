@@ -93,7 +93,7 @@ public class UserService {
             userRepository.save(user);
 
             RegistrationLoginDTO registrationLoginDTO = userMapper.toUserResponseLoginAuthDTO(user);
-            registrationLoginDTO.setToken(jwtUtil.generateToken(user.getUsername()));
+            registrationLoginDTO.setToken(jwtUtil.generateToken(user.getUsername(), user.getEmail()));
 
             return registrationLoginDTO;
         }
@@ -110,7 +110,7 @@ public class UserService {
         User user = findByEmail(userDTO.getEmail()).orElse(null);
         RegistrationLoginDTO registrationLoginDTO = userMapper.toUserResponseLoginAuthDTO(userDTO);
 
-        String token = jwtUtil.generateToken(userDTO.getUsername());
+        String token = jwtUtil.generateToken(userDTO.getUsername(), userDTO.getEmail());
 
         registrationLoginDTO.setToken(token);
         registrationLoginDTO.setId(user.getId());

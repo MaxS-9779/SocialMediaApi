@@ -1,7 +1,6 @@
 package restful.api.SocialMediaApi.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -10,9 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import restful.api.SocialMediaApi.dto.post.PostDTO;
-import restful.api.SocialMediaApi.dto.post.PostPatchDTO;
 import restful.api.SocialMediaApi.dto.post.PostResponseDTO;
-import restful.api.SocialMediaApi.models.Post;
 import restful.api.SocialMediaApi.services.PostService;
 
 import java.util.List;
@@ -26,7 +23,7 @@ public class PostController {
     @GetMapping("/posts/{id}")
     @Operation(summary = "Получить пост по ID", description = "Выводит указанный пост и пользователя, создавшего этот пост")
     @SecurityRequirement(name = "JWT")
-    public ResponseEntity<PostResponseDTO> show(Long id) {
+    public ResponseEntity<PostResponseDTO> show(@PathVariable Long id) {
         return postService.findById(id);
     }
 
@@ -47,8 +44,8 @@ public class PostController {
     @PatchMapping("/posts/{id}")
     @Operation(summary = "Обновляет пост", description = "Обновляет пост по ID в пути, возвращает информацию о посте и пользователе, создавшем этот пост. Не меняет пользователя")
     @SecurityRequirement(name = "JWT")
-    public ResponseEntity<PostResponseDTO> update(@PathVariable Long id, @RequestBody @Valid PostPatchDTO postPatchDTO, BindingResult bindingResult) {
-        return ResponseEntity.ok(postService.update(id, postPatchDTO, bindingResult));
+    public ResponseEntity<PostResponseDTO> update(@PathVariable Long id, @RequestBody @Valid PostDTO postDTO, BindingResult bindingResult) {
+        return ResponseEntity.ok(postService.update(id, postDTO, bindingResult));
     }
 
     @DeleteMapping("/posts/{id}")

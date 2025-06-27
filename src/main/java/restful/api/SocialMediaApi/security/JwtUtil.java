@@ -16,12 +16,13 @@ public class JwtUtil {
     @Value("${jwt_secret}")
     private String secret;
 
-    public String generateToken(String username) {
+    public String generateToken(String username, String email) {
         Date expirationDate = Date.from(ZonedDateTime.now().plusDays(7).toInstant());
 
         return JWT.create()
                 .withSubject("User info")
                 .withClaim("username", username)
+                .withClaim("email", email)
                 .withIssuedAt(new Date())
                 .withIssuer("SocialMediaApi")
                 .withExpiresAt(expirationDate)

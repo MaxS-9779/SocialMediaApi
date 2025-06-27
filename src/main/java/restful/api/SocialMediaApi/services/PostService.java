@@ -1,19 +1,20 @@
 package restful.api.SocialMediaApi.services;
 
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import restful.api.SocialMediaApi.dto.post.PostDTO;
-import restful.api.SocialMediaApi.dto.post.PostPatchDTO;
 import restful.api.SocialMediaApi.dto.post.PostResponseDTO;
 import restful.api.SocialMediaApi.exceptions.PostNotFoundException;
+import restful.api.SocialMediaApi.exceptions.PostUpdateException;
 import restful.api.SocialMediaApi.mappers.PostMapper;
 import restful.api.SocialMediaApi.models.Post;
+import restful.api.SocialMediaApi.models.User;
 import restful.api.SocialMediaApi.repositories.PostRepository;
+import restful.api.SocialMediaApi.security.UserDetails;
 import restful.api.SocialMediaApi.validators.PostValidator;
 
 import java.util.List;
@@ -39,12 +40,13 @@ public class PostService {
 
     @Transactional
     public PostResponseDTO save(PostDTO postDTO, BindingResult bindingResult) {
+        Post post = postMapper.toPost(postDTO);
+        post.setUser(getUserFromContext());
 
         postValidator.validate(postMapper.toPost(postDTO), bindingResult);
 
         //выбросится ошибка и не сохранит в бд
         PostValidator.bindingResultValidation(bindingResult);
-        Post post = postMapper.toPost(postDTO);
         postRepository.save(post);
 
         return postMapper.toPostResponseDTO(post);
@@ -52,8 +54,8 @@ public class PostService {
     }
 
     @Transactional
-    public PostResponseDTO update(Long id, PostPatchDTO postPatchDTO, BindingResult bindingResult) {
-        Post newPost = postMapper.toPostFromPostPatchDTO(postPatchDTO);
+    public PostResponseDTO update(Long id, PostDTO postDTO, BindingResult bindingResult) {
+        Post newPost = postMapper.toPost(postDTO);
 
         postValidator.validate(newPost, bindingResult);
         PostValidator.bindingResultValidation(bindingResult);
@@ -61,21 +63,35 @@ public class PostService {
 
         Post updatedPost = postRepository.findById(id).orElseThrow(() -> new PostNotFoundException("Post with this id not found"));
 
-        //выбросится ошибка и не обновит в бд
+        //проверяем свой ли пост редактирует авторизованный пользователь, если не свой -> ошибка
+        User user = getUserFromContext();
+        if (!updatedPost.getUser().getEmail().equals(user.getEmail())) {
+            throw new PostUpdateException("You are not allowed to update this post");
+        }
 
-        newPost.setId(id);
 
-        newPost.setUser(updatedPost.getUser());
+            newPost.setId(id);
+            newPost.setUser(updatedPost.getUser());
 
-        postRepository.save(newPost);
+            postRepository.save(newPost);
 
-        return postMapper.toPostResponseDTO(newPost);
+            return postMapper.toPostResponseDTO(newPost);
+
     }
 
     @Transactional
     public PostResponseDTO delete(Long id) {
         Post post = postRepository.findById(id).orElseThrow(() -> new PostNotFoundException("Post with this id not found"));
+        User user = getUserFromContext();
+        if (!post.getUser().getEmail().equals(user.getEmail())) {
+            throw new PostUpdateException("You are not allowed to delete this post");
+        }
         postRepository.deleteById(id);
         return postMapper.toPostResponseDTO(post);
+    }
+
+    private User getUserFromContext() {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return userDetails.getUser();
     }
 }

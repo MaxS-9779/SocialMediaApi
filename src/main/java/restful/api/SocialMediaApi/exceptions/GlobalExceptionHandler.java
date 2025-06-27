@@ -53,4 +53,13 @@ public class GlobalExceptionHandler {
         );
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(PostUpdateException.class)
+    private ResponseEntity<ErrorResponse> handlerException(PostUpdateException ex) {
+        ErrorResponse response = new ErrorResponse(
+                ex.getMessage(),
+                System.currentTimeMillis()
+        );
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
 }

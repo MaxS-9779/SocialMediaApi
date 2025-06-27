@@ -1,6 +1,5 @@
 package restful.api.SocialMediaApi.mappers;
 
-import lombok.AllArgsConstructor;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
@@ -8,7 +7,6 @@ import org.mapstruct.Named;
 import org.springframework.beans.factory.annotation.Autowired;
 import restful.api.SocialMediaApi.dto.auth.UserResponseDTO;
 import restful.api.SocialMediaApi.dto.post.PostDTO;
-import restful.api.SocialMediaApi.dto.post.PostPatchDTO;
 import restful.api.SocialMediaApi.dto.post.PostResponseDTO;
 import restful.api.SocialMediaApi.exceptions.UserNotFoundException;
 import restful.api.SocialMediaApi.models.Post;
@@ -22,19 +20,17 @@ public abstract class PostMapper {
     @Autowired
     private UserMapper userMapper;
 
-    @Mapping(target = "userId", expression = "java(post.getUser().getId())")
     public abstract PostDTO toDTO(Post post);
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "user", source = "userId", qualifiedByName = "userIdToUser")
+    @Mapping(target = "user", ignore = true)
     public abstract Post toPost(PostDTO postDTO);
 
     @Mapping(target = "userResponseDTO", source = "user", qualifiedByName = "userToResponseUserDTO")
     public abstract PostResponseDTO toPostResponseDTO(Post post);
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "user",ignore = true)
-    public abstract Post toPostFromPostPatchDTO(PostPatchDTO postPatchDTO);
+//    @Mapping(target = "id", ignore = true)
+//    @Mapping(target = "user",ignore = true)
+//    public abstract Post toPostFromPostPatchDTO(PostPatchDTO postPatchDTO);
 
     @Named("userIdToUser")
     protected User userIdToUser(Long userId){

@@ -27,4 +27,8 @@ public class UserDetails implements org.springframework.security.core.userdetail
     public String getUsername() {
         return this.user.getUsername();
     }
+
+    public User getUser() {
+        return this.user;
+    }
 }

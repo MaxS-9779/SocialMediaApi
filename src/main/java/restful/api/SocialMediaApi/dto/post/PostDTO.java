@@ -21,9 +21,4 @@ public class PostDTO {
     @NotBlank(message = "Post body cannot be empty")
     @Schema(description = "Тело поста", example = "Some interesting text about animals")
     private String body;
-
-    @NotNull
-    @Min(1)
-    @Schema(description = "ID пользователя, создавшего пост", example = "1")
-    private Long userId;
 }
