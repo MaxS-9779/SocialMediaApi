@@ -62,4 +62,22 @@ public class GlobalExceptionHandler {
         );
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(SubscribeNotFoundException.class)
+    private ResponseEntity<ErrorResponse> handlerException(SubscribeNotFoundException ex) {
+        ErrorResponse response = new ErrorResponse(
+                ex.getMessage(),
+                System.currentTimeMillis()
+        );
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(SubscribeValidateException.class)
+    private ResponseEntity<ErrorResponse> handlerException(SubscribeValidateException ex) {
+        ErrorResponse response = new ErrorResponse(
+                ex.getMessage(),
+                System.currentTimeMillis()
+        );
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
 }

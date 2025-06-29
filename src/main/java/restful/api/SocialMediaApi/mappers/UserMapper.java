@@ -6,7 +6,7 @@ import org.mapstruct.MappingConstants;
 import org.mapstruct.factory.Mappers;
 import restful.api.SocialMediaApi.dto.user.UserDTO;
 import restful.api.SocialMediaApi.dto.auth.RegistrationLoginDTO;
-import restful.api.SocialMediaApi.dto.auth.UserResponseDTO;
+import restful.api.SocialMediaApi.dto.user.UserResponseDTO;
 import restful.api.SocialMediaApi.models.User;
 
 import java.util.List;
@@ -30,12 +30,4 @@ public interface UserMapper {
     RegistrationLoginDTO toUserResponseLoginAuthDTO(UserDTO userDTO);
 
     UserResponseDTO toUserResponseDTO(User user);
-
-    default List<Map<String, String>> toUserResponseDTOMap(List<UserResponseDTO> users) {
-        return users.stream().map(user -> Map.of(
-                        "Id: ", String.valueOf(user.getId()),
-                        "Email: ", user.getEmail(),
-                        "Username: ", user.getUsername()))
-                .toList();
-    }
 }

@@ -5,13 +5,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import restful.api.SocialMediaApi.dto.auth.UserResponseDTO;
+import restful.api.SocialMediaApi.dto.user.UserResponseDTO;
 import restful.api.SocialMediaApi.services.UserService;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("")
+@RequestMapping("/users")
 @Tag(name = "Пользователи", description = "Взаимодействие с пользователями")
 public class UserController {
     private final UserService userService;
@@ -21,13 +21,13 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/users")
+    @GetMapping("")
     @SecurityRequirement(name = "JWT")
     public ResponseEntity<List<UserResponseDTO>> index() {
         return ResponseEntity.ok(userService.findAll());
     }
 
-    @GetMapping("/users/{id}")
+    @GetMapping("/{id}")
     @SecurityRequirement(name = "JWT")
     public ResponseEntity<UserResponseDTO> show(@PathVariable Long id) {
         return ResponseEntity.ok(userService.findById(id));

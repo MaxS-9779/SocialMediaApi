@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import restful.api.SocialMediaApi.dto.auth.UserResponseDTO;
+import restful.api.SocialMediaApi.dto.user.UserResponseDTO;
 
 @AllArgsConstructor
 @NoArgsConstructor

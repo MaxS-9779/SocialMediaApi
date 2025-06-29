@@ -3,6 +3,7 @@ package restful.api.SocialMediaApi.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 
@@ -27,5 +28,5 @@ public class User {
     private String email;
 
     @Column(name = "created_at")
-    private Date creationDate;
+    private LocalDateTime creationDate = LocalDateTime.now();
 }

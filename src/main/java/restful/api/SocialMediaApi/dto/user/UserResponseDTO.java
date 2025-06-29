@@ -1,4 +1,4 @@
-package restful.api.SocialMediaApi.dto.auth;
+package restful.api.SocialMediaApi.dto.user;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Schema(description = "Сущность, возвращаемая при запросе поста, содержит краткую информацию о пользователе")
+@Schema(description = "Сущность, содержащая краткую информацию о пользователе")
 public class UserResponseDTO {
 
     @Schema(description = "ID пользователя", example = "1")

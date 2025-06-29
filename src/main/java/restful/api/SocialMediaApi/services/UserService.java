@@ -13,7 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import restful.api.SocialMediaApi.dto.user.UserDTO;
 import restful.api.SocialMediaApi.dto.auth.RegistrationLoginDTO;
-import restful.api.SocialMediaApi.dto.auth.UserResponseDTO;
+import restful.api.SocialMediaApi.dto.user.UserResponseDTO;
 import restful.api.SocialMediaApi.exceptions.AuthenticationException;
 import restful.api.SocialMediaApi.exceptions.UserNotFoundException;
 import restful.api.SocialMediaApi.mappers.UserMapper;
@@ -23,6 +23,7 @@ import restful.api.SocialMediaApi.repositories.UserRepository;
 import restful.api.SocialMediaApi.security.JwtUtil;
 import restful.api.SocialMediaApi.validators.UserValidator;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -87,7 +88,7 @@ public class UserService {
             throw new RegistrationException(errorMsg.toString());
         } else {
 
-            user.setCreationDate(new Date());
+            user.setCreationDate(LocalDateTime.now());
             user.setPassword(passwordEncoder.encode(user.getPassword()));
 
             userRepository.save(user);
