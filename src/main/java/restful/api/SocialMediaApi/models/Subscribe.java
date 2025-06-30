@@ -31,4 +31,7 @@ public class Subscribe {
 
     @Column(name = "created_at")
     private LocalDateTime creationDate = LocalDateTime.now();
+
+    @Column(name = "is_mutual")
+    private boolean mutual=false;
 }

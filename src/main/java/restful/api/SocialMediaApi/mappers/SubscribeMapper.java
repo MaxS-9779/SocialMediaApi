@@ -13,6 +13,7 @@ public abstract class SubscribeMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "creationDate", ignore = true)
+    @Mapping(target = "mutual", ignore = true)
     public abstract Subscribe toSubscribe(SubscribeDTO subscribeDTO);
 
     public abstract SubscribeDTO toDTO(Subscribe subscribe);

@@ -5,7 +5,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BeanPropertyBindingResult;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import restful.api.SocialMediaApi.dto.SubscribeDTO;
 import restful.api.SocialMediaApi.exceptions.SubscribeNotFoundException;
@@ -18,11 +17,10 @@ import restful.api.SocialMediaApi.repositories.SubscribeRepository;
 import restful.api.SocialMediaApi.repositories.UserRepository;
 import restful.api.SocialMediaApi.security.UserDetails;
 import restful.api.SocialMediaApi.validators.SubsribeValidator;
-import restful.api.SocialMediaApi.validators.UserValidator;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -49,26 +47,33 @@ public class SubscribeService {
 
     @Transactional
     public String createSubscribe(Long id) {
-        Subscribe subscribe = new Subscribe();
         User toUser = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User with this id not found"));
-
         User fromUser = getUserFromContext();
+
+        //проверяем не на себя ли пытается подписаться наш пользователь
+        if (toUser.equals(fromUser)) {
+            throw new SubscribeValidateException("You cannot create a subscribe with yourself");
+        }
+
+        Subscribe subscribe = new Subscribe();
 
         subscribe.setToUser(toUser);
         subscribe.setFromUser(fromUser);
 
         Errors errors = new BeanPropertyBindingResult(subscribe, "subscribe");
 
+        //проверяем не подписан ли еще пользователь на этого пользователя
         subsribeValidator.validate(subscribe, errors);
         if (errors.hasErrors()) {
             throw new SubscribeValidateException("Current user already subscribed at this user");
-        } else {
-
-            subscribe.setCreationDate(LocalDateTime.now());
-
-            subscribeRepository.save(subscribe);
-            return String.format("User %s subscribed to user %s", fromUser.getUsername(), toUser.getUsername());
         }
+
+        subscribeRepository.save(subscribe);
+
+        setMutual(toUser, fromUser);
+
+        return String.format("User %s subscribed to user %s", fromUser.getUsername(), toUser.getUsername());
+
     }
 
     @Transactional
@@ -84,5 +89,21 @@ public class SubscribeService {
     private User getUserFromContext() {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return userDetails.getUser();
+    }
+
+    private void setMutual(User toUser, User fromUser) {
+        Optional<Subscribe> optSubscribeTo = subscribeRepository.findByToUserAndFromUser(toUser, fromUser);
+        Optional<Subscribe> optSubscribeFrom = subscribeRepository.findByToUserAndFromUser(fromUser, toUser);
+
+        if (optSubscribeTo.isPresent() && optSubscribeFrom.isPresent()) {
+            Subscribe subscribeTo = optSubscribeTo.get();
+            Subscribe subscribeFrom = optSubscribeFrom.get();
+
+            subscribeTo.setMutual(true);
+            subscribeFrom.setMutual(true);
+
+            subscribeRepository.save(subscribeTo);
+            subscribeRepository.save(subscribeFrom);
+        }
     }
 }
