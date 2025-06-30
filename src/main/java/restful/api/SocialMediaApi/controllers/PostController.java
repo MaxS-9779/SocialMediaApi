@@ -55,4 +55,11 @@ public class PostController {
     public ResponseEntity<PostResponseDTO> delete(@PathVariable Long id) {
         return ResponseEntity.ok(postService.delete(id));
     }
+
+    @GetMapping("/feed")
+    @Operation(summary = "Выводит ленту активности", description = "Выводит ленту постов от пользователей, на которых подписан аутентифицированный пользователь")
+    @SecurityRequirement(name = "JWT")
+    public ResponseEntity<List<PostResponseDTO>> showActivityFeed() {
+        return ResponseEntity.ok(postService.findAllByActivityFeed());
+    }
 }

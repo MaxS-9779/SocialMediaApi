@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import restful.api.SocialMediaApi.dto.SubscribeDTO;
 import restful.api.SocialMediaApi.services.SubscribeService;
@@ -36,8 +37,8 @@ public class SubscribeController {
     @PostMapping("/{id}")
     @Operation(summary = "Создает новую подписку", description = "Создает подписку от авторизованного пользователя к указанному по ID")
     @SecurityRequirement(name = "JWT")
-    public ResponseEntity<String> add(@PathVariable Long id, BindingResult bindingResult){
-        return ResponseEntity.ok(subscribeService.createSubscribe(id, bindingResult));
+    public ResponseEntity<String> add(@PathVariable Long id){
+        return ResponseEntity.ok(subscribeService.createSubscribe(id));
     }
 
     @DeleteMapping("/{id}")

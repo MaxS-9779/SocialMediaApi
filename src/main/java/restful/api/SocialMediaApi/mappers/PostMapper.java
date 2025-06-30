@@ -24,6 +24,7 @@ public abstract class PostMapper {
 
     @Mapping(target = "user", ignore = true)
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
     public abstract Post toPost(PostDTO postDTO);
 
     @Mapping(target = "userResponseDTO", source = "user", qualifiedByName = "userToResponseUserDTO")

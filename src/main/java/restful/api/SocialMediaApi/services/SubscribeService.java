@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import restful.api.SocialMediaApi.dto.SubscribeDTO;
 import restful.api.SocialMediaApi.exceptions.SubscribeNotFoundException;
 import restful.api.SocialMediaApi.exceptions.SubscribeValidateException;
@@ -46,7 +48,7 @@ public class SubscribeService {
     }
 
     @Transactional
-    public String createSubscribe(Long id, BindingResult bindingResult) {
+    public String createSubscribe(Long id) {
         Subscribe subscribe = new Subscribe();
         User toUser = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User with this id not found"));
 
@@ -55,8 +57,10 @@ public class SubscribeService {
         subscribe.setToUser(toUser);
         subscribe.setFromUser(fromUser);
 
-        subsribeValidator.validate(subscribe, bindingResult);
-        if (bindingResult.hasErrors()) {
+        Errors errors = new BeanPropertyBindingResult(subscribe, "subscribe");
+
+        subsribeValidator.validate(subscribe, errors);
+        if (errors.hasErrors()) {
             throw new SubscribeValidateException("Current user already subscribed at this user");
         } else {
 

@@ -1,6 +1,9 @@
 package restful.api.SocialMediaApi.services;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -12,8 +15,10 @@ import restful.api.SocialMediaApi.exceptions.PostNotFoundException;
 import restful.api.SocialMediaApi.exceptions.PostUpdateException;
 import restful.api.SocialMediaApi.mappers.PostMapper;
 import restful.api.SocialMediaApi.models.Post;
+import restful.api.SocialMediaApi.models.Subscribe;
 import restful.api.SocialMediaApi.models.User;
 import restful.api.SocialMediaApi.repositories.PostRepository;
+import restful.api.SocialMediaApi.repositories.SubscribeRepository;
 import restful.api.SocialMediaApi.security.UserDetails;
 import restful.api.SocialMediaApi.validators.PostValidator;
 
@@ -25,6 +30,7 @@ import java.util.stream.Collectors;
 public class PostService {
     private final PostMapper postMapper;
     private final PostValidator postValidator;
+    private final SubscribeRepository subscribeRepository;
     private PostRepository postRepository;
 
     public ResponseEntity<PostResponseDTO> findById(Long id) {
@@ -70,12 +76,12 @@ public class PostService {
         }
 
 
-            newPost.setId(id);
-            newPost.setUser(updatedPost.getUser());
+        newPost.setId(id);
+        newPost.setUser(updatedPost.getUser());
 
-            postRepository.save(newPost);
+        postRepository.save(newPost);
 
-            return postMapper.toPostResponseDTO(newPost);
+        return postMapper.toPostResponseDTO(newPost);
 
     }
 
@@ -93,5 +99,24 @@ public class PostService {
     private User getUserFromContext() {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return userDetails.getUser();
+    }
+
+    public List<PostResponseDTO> findAllByActivityFeed() {
+
+        //находим все подписки авторизованного пользователя
+        List<Subscribe> subscribes = subscribeRepository.findByFromUser(getUserFromContext());
+        //находим всех пользователей, на которых подписан авторизованный пользователь
+        List<User> userSubscribes = subscribes.stream().map(Subscribe::getToUser).toList();
+
+        //сортировка
+        Sort sort = Sort.by("createdAt").descending();
+        //пагинация
+        Pageable pageable = PageRequest.of(0, 2, sort);
+
+        //достаем все посты у пользователей, на которых подписан авторизованный пользователь, применяем пагинацию и сортировку
+        List<Post> posts = userSubscribes.stream().flatMap(user ->
+                postRepository.findByUser(pageable, user).stream()).toList();
+
+        return posts.stream().map(postMapper::toPostResponseDTO).toList();
     }
 }

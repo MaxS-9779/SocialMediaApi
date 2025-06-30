@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import restful.api.SocialMediaApi.models.Subscribe;
 import restful.api.SocialMediaApi.models.User;
 
+import javax.swing.text.LayoutQueue;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +14,8 @@ import java.util.Optional;
 public interface SubscribeRepository extends JpaRepository<Subscribe, Long> {
 
     List<Subscribe> findByToUser(User toUser);
+
+    List<Subscribe> findByFromUser(User fromUser);
 
     Optional<Subscribe> findByToUserAndFromUser(User toUser, User fromUser);
 }
