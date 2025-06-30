@@ -18,7 +18,6 @@ import restful.api.SocialMediaApi.repositories.UserRepository;
 import restful.api.SocialMediaApi.security.UserDetails;
 import restful.api.SocialMediaApi.validators.SubsribeValidator;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -80,10 +79,19 @@ public class SubscribeService {
     public SubscribeDTO deleteSubscribe(Long id) {
 
         User toUser = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User with this id not found"));
+        User fromUser = getUserFromContext();
 
-        Subscribe subscribe = subscribeRepository.findByToUserAndFromUser(toUser, getUserFromContext()).orElseThrow(() -> new SubscribeNotFoundException("Current user not subscribed to this user"));
-        subscribeRepository.delete(subscribe);
-        return subscribeMapper.toDTO(subscribe);
+        Subscribe subscribeTo = subscribeRepository.findByToUserAndFromUser(toUser, fromUser).orElseThrow(() -> new SubscribeNotFoundException("Current user not subscribed to this user"));
+
+        if (subscribeTo.isMutual()){
+            Subscribe subscribeFrom = subscribeRepository.findByToUserAndFromUser(fromUser,toUser).orElseThrow(() -> new SubscribeNotFoundException("User not subscribed to this user"));
+            subscribeFrom.setMutual(false);
+            subscribeRepository.save(subscribeFrom);
+        }
+
+        subscribeRepository.delete(subscribeTo);
+
+        return subscribeMapper.toDTO(subscribeTo);
     }
 
     private User getUserFromContext() {
