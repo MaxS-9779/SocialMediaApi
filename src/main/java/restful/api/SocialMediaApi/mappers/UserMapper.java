@@ -3,31 +3,25 @@ package restful.api.SocialMediaApi.mappers;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
-import org.mapstruct.factory.Mappers;
+import restful.api.SocialMediaApi.dto.auth.JWTAuthResponse;
+import restful.api.SocialMediaApi.dto.auth.RegistrationRequest;
 import restful.api.SocialMediaApi.dto.user.UserDTO;
-import restful.api.SocialMediaApi.dto.auth.RegistrationLoginDTO;
-import restful.api.SocialMediaApi.dto.user.UserResponseDTO;
 import restful.api.SocialMediaApi.models.User;
 
-import java.util.List;
-import java.util.Map;
-
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
-public interface UserMapper {
-    UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
-
+public abstract class UserMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "creationDate", ignore = true)
-    User toUser(UserDTO userDTO);
+    public abstract User toUser(RegistrationRequest registrationRequest);
 
-    UserDTO toDTO(User user);
+    public abstract RegistrationRequest toRegistrationRequest(User user);
 
     @Mapping(target = "token", ignore = true)
-    RegistrationLoginDTO toUserResponseLoginAuthDTO(User user);
+    public abstract JWTAuthResponse toJWTAuthResponse(User user);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "token", ignore = true)
-    RegistrationLoginDTO toUserResponseLoginAuthDTO(UserDTO userDTO);
+    public abstract JWTAuthResponse toJWTAuthResponse(RegistrationRequest registrationRequest);
 
-    UserResponseDTO toUserResponseDTO(User user);
+    public abstract UserDTO toUserDTO(User user);
 }

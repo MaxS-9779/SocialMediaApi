@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import restful.api.SocialMediaApi.dto.user.UserResponseDTO;
+import restful.api.SocialMediaApi.dto.user.UserDTO;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,5 +23,5 @@ public class PostResponseDTO {
     private String body;
 
     @Schema(description = "Сущность, возвращаемая при запросе поста, содержит краткую информацию о пользователе")
-    private UserResponseDTO userResponseDTO;
+    private UserDTO userDTO;
 }

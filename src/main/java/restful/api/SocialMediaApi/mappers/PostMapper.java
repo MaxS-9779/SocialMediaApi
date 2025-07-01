@@ -5,7 +5,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.Named;
 import org.springframework.beans.factory.annotation.Autowired;
-import restful.api.SocialMediaApi.dto.user.UserResponseDTO;
+import restful.api.SocialMediaApi.dto.user.UserDTO;
 import restful.api.SocialMediaApi.dto.post.PostDTO;
 import restful.api.SocialMediaApi.dto.post.PostResponseDTO;
 import restful.api.SocialMediaApi.exceptions.UserNotFoundException;
@@ -27,12 +27,8 @@ public abstract class PostMapper {
     @Mapping(target = "createdAt", ignore = true)
     public abstract Post toPost(PostDTO postDTO);
 
-    @Mapping(target = "userResponseDTO", source = "user", qualifiedByName = "userToResponseUserDTO")
+    @Mapping(target = "userDTO", source = "user", qualifiedByName = "userToResponseUserDTO")
     public abstract PostResponseDTO toPostResponseDTO(Post post);
-
-//    @Mapping(target = "id", ignore = true)
-//    @Mapping(target = "user",ignore = true)
-//    public abstract Post toPostFromPostPatchDTO(PostPatchDTO postPatchDTO);
 
     @Named("userIdToUser")
     protected User userIdToUser(Long userId){
@@ -45,7 +41,7 @@ public abstract class PostMapper {
     }
 
     @Named("userToResponseUserDTO")
-    protected UserResponseDTO userToResponseUserDTO(User user){
-        return userMapper.toUserResponseDTO(user);
+    protected UserDTO userToResponseUserDTO(User user){
+        return userMapper.toUserDTO(user);
     }
 }

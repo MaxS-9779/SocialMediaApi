@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
-import restful.api.SocialMediaApi.dto.SubscribeDTO;
+import restful.api.SocialMediaApi.dto.subscribe.SubscribeDTO;
 import restful.api.SocialMediaApi.exceptions.SubscribeNotFoundException;
 import restful.api.SocialMediaApi.exceptions.SubscribeValidateException;
 import restful.api.SocialMediaApi.exceptions.UserNotFoundException;

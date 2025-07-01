@@ -1,29 +1,22 @@
 package restful.api.SocialMediaApi.dto.user;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
-@Schema(description = "Сущность пользователя")
+@Schema(description = "Сущность, содержащая краткую информацию о пользователе")
 public class UserDTO {
+
+    @Schema(description = "ID пользователя", example = "1")
+    private Long id;
+
     @Schema(description = "Имя пользователя", example = "Petya Ivanov")
-    @NotBlank(message = "Username cannot be empty")
-    @Size(min = 2, max = 50, message = "Username must be more than 2 characters and less than 50")
     private String username;
 
-    @Schema(description = "Пароль пользователя", example = "123456qwerty")
-    @NotBlank(message = "Password cannot be empty")
-    @Size(min = 5, max = 50, message = "Password must be more than 5 characters and less than 50")
-    private String password;
-
     @Schema(description = "Email пользователя", example = "PetyaIvanov2015@mail.ru")
-    @NotBlank(message = "Email cannot be empty")
-    @Email(message = "Invalid email format")
     private String email;
 }
+
+

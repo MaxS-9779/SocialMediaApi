@@ -8,8 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import restful.api.SocialMediaApi.dto.user.UserDTO;
-import restful.api.SocialMediaApi.dto.auth.RegistrationLoginDTO;
+import restful.api.SocialMediaApi.dto.auth.JWTAuthResponse;
+import restful.api.SocialMediaApi.dto.auth.RegistrationRequest;
 import restful.api.SocialMediaApi.mappers.UserMapper;
 import restful.api.SocialMediaApi.security.JwtUtil;
 import restful.api.SocialMediaApi.services.UserService;
@@ -28,14 +28,14 @@ public class AuthController {
 
     @PostMapping("/registration")
     @Operation(summary = "Регистрация нового пользователя", description = "Сохранение пользователя в БД, выдача ID пользователя и токена")
-    public ResponseEntity<RegistrationLoginDTO> performRegistration(@Valid @RequestBody UserDTO userDTO,
-                                                                    BindingResult bindingResult) {
-        return ResponseEntity.ok(userService.save(userDTO, bindingResult));
+    public ResponseEntity<JWTAuthResponse> performRegistration(@Valid @RequestBody RegistrationRequest registrationRequest,
+                                                               BindingResult bindingResult) {
+        return ResponseEntity.ok(userService.save(registrationRequest, bindingResult));
     }
 
     @PostMapping("/login")
     @Operation(summary = "Аутентификация пользователя", description = "Аутентификация пользователя и выдача нового токена")
-    public ResponseEntity<RegistrationLoginDTO> performLogin(@RequestBody UserDTO userDTO) {
-        return ResponseEntity.ok(userService.login(userDTO));
+    public ResponseEntity<JWTAuthResponse> performLogin(@RequestBody RegistrationRequest registrationRequest) {
+        return ResponseEntity.ok(userService.login(registrationRequest));
     }
 }

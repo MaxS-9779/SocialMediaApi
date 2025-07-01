@@ -5,10 +5,8 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-import restful.api.SocialMediaApi.dto.SubscribeDTO;
+import restful.api.SocialMediaApi.dto.subscribe.SubscribeDTO;
 import restful.api.SocialMediaApi.services.SubscribeService;
 
 import java.util.List;

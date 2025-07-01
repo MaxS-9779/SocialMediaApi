@@ -3,7 +3,7 @@ package restful.api.SocialMediaApi.mappers;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
-import restful.api.SocialMediaApi.dto.SubscribeDTO;
+import restful.api.SocialMediaApi.dto.subscribe.SubscribeDTO;
 import restful.api.SocialMediaApi.models.Subscribe;
 
 import java.util.Date;

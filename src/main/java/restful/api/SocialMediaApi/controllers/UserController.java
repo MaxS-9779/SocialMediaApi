@@ -5,7 +5,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import restful.api.SocialMediaApi.dto.user.UserResponseDTO;
+import restful.api.SocialMediaApi.dto.user.UserDTO;
+import restful.api.SocialMediaApi.dto.user.UserGetDTO;
 import restful.api.SocialMediaApi.services.UserService;
 
 import java.util.List;
@@ -23,13 +24,13 @@ public class UserController {
 
     @GetMapping("")
     @SecurityRequirement(name = "JWT")
-    public ResponseEntity<List<UserResponseDTO>> index() {
+    public ResponseEntity<List<UserDTO>> index() {
         return ResponseEntity.ok(userService.findAll());
     }
 
     @GetMapping("/{id}")
     @SecurityRequirement(name = "JWT")
-    public ResponseEntity<UserResponseDTO> show(@PathVariable Long id) {
+    public ResponseEntity<UserGetDTO> show(@PathVariable Long id) {
         return ResponseEntity.ok(userService.findById(id));
     }
 }

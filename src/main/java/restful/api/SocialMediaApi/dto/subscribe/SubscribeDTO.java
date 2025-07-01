@@ -1,12 +1,11 @@
-package restful.api.SocialMediaApi.dto;
+package restful.api.SocialMediaApi.dto.subscribe;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import restful.api.SocialMediaApi.dto.user.UserResponseDTO;
-import restful.api.SocialMediaApi.models.User;
+import restful.api.SocialMediaApi.dto.user.UserDTO;
 
 @Getter
 @Setter
@@ -14,7 +13,7 @@ import restful.api.SocialMediaApi.models.User;
 @AllArgsConstructor
 @Schema(description = "Сущность, содержащая краткую информацию о подписке и пользователей")
 public class SubscribeDTO {
-    private UserResponseDTO toUser;
+    private UserDTO toUser;
 
-    private UserResponseDTO fromUser;
+    private UserDTO fromUser;
 }

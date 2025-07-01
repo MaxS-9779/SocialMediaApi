@@ -1,13 +1,17 @@
 package restful.api.SocialMediaApi.dto.auth;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @Schema(description = "Сущность, возвращаемая при регистрации и аутентификации")
-public class RegistrationLoginDTO {
+public class JWTAuthResponse {
 
     @Schema(description = "ID пользователя", example = "1")
     private Long id;
