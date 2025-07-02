@@ -1,12 +1,10 @@
 package restful.api.SocialMediaApi.repositories;
 
-import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import restful.api.SocialMediaApi.models.Subscribe;
 import restful.api.SocialMediaApi.models.User;
 
-import javax.swing.text.LayoutQueue;
 import java.util.List;
 import java.util.Optional;
 

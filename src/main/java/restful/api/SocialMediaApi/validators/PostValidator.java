@@ -1,6 +1,7 @@
 package restful.api.SocialMediaApi.validators;
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
@@ -14,7 +15,7 @@ import restful.api.SocialMediaApi.repositories.PostRepository;
 import java.util.List;
 
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class PostValidator implements Validator {
     private final PostRepository postRepository;
 

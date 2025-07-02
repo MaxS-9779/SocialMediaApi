@@ -1,5 +1,6 @@
 package restful.api.SocialMediaApi.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,15 +25,10 @@ import restful.api.SocialMediaApi.services.UserDetailService;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
     private final UserRepository userRepository;
     private final JWTFilter jwtFilter;
-
-    @Autowired
-    public SecurityConfig(UserRepository userRepository, JWTFilter jwtFilter) {
-        this.userRepository = userRepository;
-        this.jwtFilter = jwtFilter;
-    }
 
     @Bean
     public UserDetailsService userDetailsService() {

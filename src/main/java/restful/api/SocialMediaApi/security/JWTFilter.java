@@ -7,7 +7,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,7 +21,7 @@ import restful.api.SocialMediaApi.services.UserDetailService;
 import java.io.IOException;
 
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class JWTFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
     private final UserDetailService userDetailsService;
@@ -29,31 +30,51 @@ public class JWTFilter extends OncePerRequestFilter {
     protected void doFilterInternal(@NotNull HttpServletRequest request,
                                     @NotNull HttpServletResponse response,
                                     @NotNull FilterChain filterChain) throws ServletException, IOException {
-        String authorizationHeader = request.getHeader("Authorization");
 
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+        try {
+            var authorizationHeader = request.getHeader("Authorization");
+
+            if (StringUtils.isEmpty(authorizationHeader)|| !authorizationHeader.startsWith("Bearer ")) {
+                sendError(response,"Missing or invalid Authorization header");
+                return;
+            }
+
             String token = authorizationHeader.substring(7);
 
-            if (token.isBlank())
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid JWT token");
-            else {
-                try {
-                    String username = jwtUtil.verifyTokenAndReturnUsername(token);
-                    UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-
-                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                            userDetails,
-                            userDetails.getPassword(),
-                            userDetails.getAuthorities());
-
-                    if (SecurityContextHolder.getContext().getAuthentication() == null) {
-                        SecurityContextHolder.getContext().setAuthentication(authToken);
-                    }
-                } catch (AuthorizationDeniedException | JWTVerificationException ex) {
-                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid JWT token");
-                }
+            if (token.isBlank()) {
+                sendError(response, "Invalid JWT token: token is blank");
+                return;
             }
+
+            try {
+                String username = jwtUtil.verifyTokenAndReturnUsername(token);
+                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                        userDetails,
+                        userDetails.getPassword(),
+                        userDetails.getAuthorities());
+
+                if (SecurityContextHolder.getContext().getAuthentication() == null) {
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                }
+            } catch (AuthorizationDeniedException | JWTVerificationException ex) {
+                sendError(response, "Invalid JWT token: " + ex.getMessage());
+                return;
+            }
+
+            filterChain.doFilter(request, response);
+        } catch (Exception ex) {
+            sendError(response, "Authentication failed: " + ex.getMessage());
         }
-        filterChain.doFilter(request, response);
+    }
+
+    private void sendError(HttpServletResponse response, String message) throws IOException {
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setContentType("application/json");
+        response.getWriter().write("{\"error\": \"" + message + "\"}");
+        response.getWriter().flush();
     }
 }
+
+

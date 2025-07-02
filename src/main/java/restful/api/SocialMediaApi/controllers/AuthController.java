@@ -3,6 +3,8 @@ package restful.api.SocialMediaApi.controllers;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,15 +19,11 @@ import restful.api.SocialMediaApi.services.UserService;
 import restful.api.SocialMediaApi.validators.UserValidator;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/auth")
 @Tag(name = "Аутентификация", description = "Регистрация и аутентификация пользователей")
 public class AuthController {
     private final UserService userService;
-
-    @Autowired
-    public AuthController(UserMapper userMapper, UserValidator userValidator, UserService userService, JwtUtil jwtUtil, AuthenticationManager authenticationManager) {
-        this.userService = userService;
-    }
 
     @PostMapping("/registration")
     @Operation(summary = "Регистрация нового пользователя", description = "Сохранение пользователя в БД, выдача ID пользователя и токена")

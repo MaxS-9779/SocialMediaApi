@@ -1,6 +1,6 @@
 package restful.api.SocialMediaApi.services;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,7 +23,7 @@ import restful.api.SocialMediaApi.exceptions.RegistrationException;
 import restful.api.SocialMediaApi.models.User;
 import restful.api.SocialMediaApi.repositories.SubscribeRepository;
 import restful.api.SocialMediaApi.repositories.UserRepository;
-import restful.api.SocialMediaApi.security.AuthenticatedUser;
+import restful.api.SocialMediaApi.util.AuthenticatedUser;
 import restful.api.SocialMediaApi.security.JwtUtil;
 import restful.api.SocialMediaApi.validators.UserValidator;
 
@@ -31,7 +31,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;

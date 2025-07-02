@@ -1,6 +1,7 @@
 package restful.api.SocialMediaApi.validators;
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -8,7 +9,7 @@ import restful.api.SocialMediaApi.models.Subscribe;
 import restful.api.SocialMediaApi.repositories.SubscribeRepository;
 
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class SubsribeValidator implements Validator {
     private final SubscribeRepository subscribeRepository;
 

@@ -1,6 +1,6 @@
 package restful.api.SocialMediaApi.services;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -19,19 +19,19 @@ import restful.api.SocialMediaApi.models.Post;
 import restful.api.SocialMediaApi.models.User;
 import restful.api.SocialMediaApi.repositories.PostRepository;
 import restful.api.SocialMediaApi.repositories.SubscribeRepository;
-import restful.api.SocialMediaApi.security.AuthenticatedUser;
+import restful.api.SocialMediaApi.util.AuthenticatedUser;
 import restful.api.SocialMediaApi.validators.PostValidator;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class PostService {
     private final PostMapper postMapper;
     private final PostValidator postValidator;
     private final SubscribeRepository subscribeRepository;
-    private PostRepository postRepository;
+    private final PostRepository postRepository;
 
     public ResponseEntity<PostResponseDTO> findById(Long id) {
         Post post = postRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Post with this id not found"));

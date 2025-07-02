@@ -1,9 +1,10 @@
-package restful.api.SocialMediaApi.security;
+package restful.api.SocialMediaApi.util;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import restful.api.SocialMediaApi.models.User;
+import restful.api.SocialMediaApi.security.UserDetails;
 
 @Component
 public class AuthenticatedUser {

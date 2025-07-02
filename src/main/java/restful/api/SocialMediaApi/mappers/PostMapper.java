@@ -10,15 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import restful.api.SocialMediaApi.dto.user.UserDTO;
 import restful.api.SocialMediaApi.dto.post.PostDTO;
 import restful.api.SocialMediaApi.dto.post.PostResponseDTO;
-import restful.api.SocialMediaApi.exceptions.EntityNotFoundException;
 import restful.api.SocialMediaApi.models.Post;
 import restful.api.SocialMediaApi.models.User;
-import restful.api.SocialMediaApi.repositories.UserRepository;
+//import restful.api.SocialMediaApi.repositories.UserRepository;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public abstract class PostMapper {
-    private UserRepository userRepository;
+//    private final UserRepository userRepository;
+    @Autowired
     private UserMapper userMapper;
 
     public abstract PostDTO toDTO(Post post);

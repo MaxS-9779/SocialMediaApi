@@ -1,13 +1,11 @@
 package restful.api.SocialMediaApi.services;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
 import restful.api.SocialMediaApi.dto.subscribe.SubscribeDTO;
-//import restful.api.SocialMediaApi.exceptions.SubscribeNotFoundException;
-//import restful.api.SocialMediaApi.exceptions.SubscribeValidateException;
 import restful.api.SocialMediaApi.exceptions.EntityNotFoundException;
 import restful.api.SocialMediaApi.exceptions.ValidateException;
 import restful.api.SocialMediaApi.mappers.SubscribeMapper;
@@ -15,7 +13,7 @@ import restful.api.SocialMediaApi.models.Subscribe;
 import restful.api.SocialMediaApi.models.User;
 import restful.api.SocialMediaApi.repositories.SubscribeRepository;
 import restful.api.SocialMediaApi.repositories.UserRepository;
-import restful.api.SocialMediaApi.security.AuthenticatedUser;
+import restful.api.SocialMediaApi.util.AuthenticatedUser;
 import restful.api.SocialMediaApi.validators.SubsribeValidator;
 
 import java.util.List;
@@ -23,7 +21,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class SubscribeService {
     private final SubscribeRepository subscribeRepository;
     private final SubscribeMapper subscribeMapper;
