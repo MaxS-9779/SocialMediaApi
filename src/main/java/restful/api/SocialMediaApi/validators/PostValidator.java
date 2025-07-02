@@ -1,24 +1,22 @@
 package restful.api.SocialMediaApi.validators;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.Validator;
-import restful.api.SocialMediaApi.exceptions.PostNotFoundException;
-import restful.api.SocialMediaApi.exceptions.PostValidateException;
+import restful.api.SocialMediaApi.exceptions.EntityNotFoundException;
+import restful.api.SocialMediaApi.exceptions.ValidateException;
 import restful.api.SocialMediaApi.models.Post;
 import restful.api.SocialMediaApi.repositories.PostRepository;
 
 import java.util.List;
 
 @Component
+@AllArgsConstructor
 public class PostValidator implements Validator {
     private final PostRepository postRepository;
-
-    public PostValidator(PostRepository postRepository) {
-        this.postRepository = postRepository;
-    }
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -30,7 +28,7 @@ public class PostValidator implements Validator {
         Post post = (Post) target;
 
         if (errors.hasErrors()) {
-            throw new PostValidateException("Invalid query");
+            throw new ValidateException("Invalid query");
         }
 
         if (postRepository.findByBody(post.getBody()).isPresent() && postRepository.findByHeader(post.getHeader()).isPresent()) {
@@ -47,7 +45,7 @@ public class PostValidator implements Validator {
                         .append(" - ").append(fieldError.getDefaultMessage())
                         .append(";");
             }
-            throw new PostNotFoundException(errorMsg.toString());
+            throw new EntityNotFoundException(errorMsg.toString());
         }
     }
 }

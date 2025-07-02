@@ -1,21 +1,21 @@
 package restful.api.SocialMediaApi.services;
 
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
 import restful.api.SocialMediaApi.dto.subscribe.SubscribeDTO;
-import restful.api.SocialMediaApi.exceptions.SubscribeNotFoundException;
-import restful.api.SocialMediaApi.exceptions.SubscribeValidateException;
-import restful.api.SocialMediaApi.exceptions.UserNotFoundException;
+//import restful.api.SocialMediaApi.exceptions.SubscribeNotFoundException;
+//import restful.api.SocialMediaApi.exceptions.SubscribeValidateException;
+import restful.api.SocialMediaApi.exceptions.EntityNotFoundException;
+import restful.api.SocialMediaApi.exceptions.ValidateException;
 import restful.api.SocialMediaApi.mappers.SubscribeMapper;
 import restful.api.SocialMediaApi.models.Subscribe;
 import restful.api.SocialMediaApi.models.User;
 import restful.api.SocialMediaApi.repositories.SubscribeRepository;
 import restful.api.SocialMediaApi.repositories.UserRepository;
-import restful.api.SocialMediaApi.security.UserDetails;
+import restful.api.SocialMediaApi.security.AuthenticatedUser;
 import restful.api.SocialMediaApi.validators.SubsribeValidator;
 
 import java.util.List;
@@ -36,7 +36,7 @@ public class SubscribeService {
     }
 
     public List<SubscribeDTO> findSubscribesByUserId(Long id) {
-        User toUser = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User with this id not found"));
+        User toUser = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User with this id not found"));
 
         List<Subscribe> subscribes = subscribeRepository.findByToUser(toUser);
 
@@ -46,12 +46,12 @@ public class SubscribeService {
 
     @Transactional
     public String createSubscribe(Long id) {
-        User toUser = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User with this id not found"));
-        User fromUser = getUserFromContext();
+        User toUser = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User with this id not found"));
+        User fromUser = AuthenticatedUser.getUserFromContext();
 
         //проверяем не на себя ли пытается подписаться наш пользователь
         if (toUser.equals(fromUser)) {
-            throw new SubscribeValidateException("You cannot create a subscribe with yourself");
+            throw new ValidateException("You cannot create a subscribe with yourself");
         }
 
         Subscribe subscribe = new Subscribe();
@@ -64,7 +64,7 @@ public class SubscribeService {
         //проверяем не подписан ли еще пользователь на этого пользователя
         subsribeValidator.validate(subscribe, errors);
         if (errors.hasErrors()) {
-            throw new SubscribeValidateException("Current user already subscribed at this user");
+            throw new ValidateException("Current user already subscribed at this user");
         }
 
         subscribeRepository.save(subscribe);
@@ -78,13 +78,13 @@ public class SubscribeService {
     @Transactional
     public SubscribeDTO deleteSubscribe(Long id) {
 
-        User toUser = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User with this id not found"));
-        User fromUser = getUserFromContext();
+        User toUser = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User with this id not found"));
+        User fromUser = AuthenticatedUser.getUserFromContext();
 
-        Subscribe subscribeTo = subscribeRepository.findByToUserAndFromUser(toUser, fromUser).orElseThrow(() -> new SubscribeNotFoundException("Current user not subscribed to this user"));
+        Subscribe subscribeTo = subscribeRepository.findByToUserAndFromUser(toUser, fromUser).orElseThrow(() -> new EntityNotFoundException("Current user not subscribed to this user"));
 
         if (subscribeTo.isMutual()){
-            Subscribe subscribeFrom = subscribeRepository.findByToUserAndFromUser(fromUser,toUser).orElseThrow(() -> new SubscribeNotFoundException("User not subscribed to this user"));
+            Subscribe subscribeFrom = subscribeRepository.findByToUserAndFromUser(fromUser,toUser).orElseThrow(() -> new EntityNotFoundException("User not subscribed to this user"));
             subscribeFrom.setMutual(false);
             subscribeRepository.save(subscribeFrom);
         }
@@ -92,11 +92,6 @@ public class SubscribeService {
         subscribeRepository.delete(subscribeTo);
 
         return subscribeMapper.toDTO(subscribeTo);
-    }
-
-    private User getUserFromContext() {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return userDetails.getUser();
     }
 
     private void setMutual(User toUser, User fromUser) {

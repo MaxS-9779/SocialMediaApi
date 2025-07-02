@@ -1,5 +1,6 @@
 package restful.api.SocialMediaApi.validators;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -8,14 +9,9 @@ import restful.api.SocialMediaApi.models.User;
 import restful.api.SocialMediaApi.repositories.UserRepository;
 
 @Component
+@AllArgsConstructor
 public class UserValidator implements Validator {
     private final UserRepository userRepository;
-
-    @Autowired
-    public UserValidator(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
 
     @Override
     public boolean supports(Class<?> clazz) {

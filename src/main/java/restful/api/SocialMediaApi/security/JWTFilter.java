@@ -6,6 +6,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authorization.AuthorizationDeniedException;
@@ -19,15 +20,10 @@ import restful.api.SocialMediaApi.services.UserDetailService;
 import java.io.IOException;
 
 @Component
+@AllArgsConstructor
 public class JWTFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
     private final UserDetailService userDetailsService;
-
-    @Autowired
-    public JWTFilter(JwtUtil jwtUtil, UserDetailService userDetailsService) {
-        this.jwtUtil = jwtUtil;
-        this.userDetailsService = userDetailsService;
-    }
 
     @Override
     protected void doFilterInternal(@NotNull HttpServletRequest request,

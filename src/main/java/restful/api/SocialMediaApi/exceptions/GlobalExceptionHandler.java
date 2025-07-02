@@ -1,9 +1,11 @@
 package restful.api.SocialMediaApi.exceptions;
 
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import restful.api.SocialMediaApi.responces.ErrorResponse;
 
 @ControllerAdvice
@@ -27,8 +29,8 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(UserNotFoundException.class)
-    private ResponseEntity<ErrorResponse> handlerException(UserNotFoundException ex) {
+    @ExceptionHandler(EntityNotFoundException.class)
+    private ResponseEntity<ErrorResponse> handlerException(EntityNotFoundException ex) {
         ErrorResponse response = new ErrorResponse(
                 ex.getMessage(),
                 System.currentTimeMillis()
@@ -36,17 +38,8 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(PostNotFoundException.class)
-    private ResponseEntity<ErrorResponse> handlerException(PostNotFoundException ex) {
-        ErrorResponse response = new ErrorResponse(
-                ex.getMessage(),
-                System.currentTimeMillis()
-        );
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(PostValidateException.class)
-    private ResponseEntity<ErrorResponse> handlerException(PostValidateException ex) {
+    @ExceptionHandler(ValidateException.class)
+    private ResponseEntity<ErrorResponse> handlerException(ValidateException ex) {
         ErrorResponse response = new ErrorResponse(
                 ex.getMessage(),
                 System.currentTimeMillis()
@@ -63,8 +56,8 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(SubscribeNotFoundException.class)
-    private ResponseEntity<ErrorResponse> handlerException(SubscribeNotFoundException ex) {
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    private ResponseEntity<ErrorResponse> handlerException(MethodArgumentTypeMismatchException ex) {
         ErrorResponse response = new ErrorResponse(
                 ex.getMessage(),
                 System.currentTimeMillis()
@@ -72,8 +65,8 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(SubscribeValidateException.class)
-    private ResponseEntity<ErrorResponse> handlerException(SubscribeValidateException ex) {
+    @ExceptionHandler(ConstraintViolationException.class)
+    private ResponseEntity<ErrorResponse> handlerException(ConstraintViolationException ex) {
         ErrorResponse response = new ErrorResponse(
                 ex.getMessage(),
                 System.currentTimeMillis()

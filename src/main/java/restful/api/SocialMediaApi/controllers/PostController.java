@@ -3,10 +3,15 @@ package restful.api.SocialMediaApi.controllers;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import restful.api.SocialMediaApi.dto.post.PostDTO;
 import restful.api.SocialMediaApi.dto.post.PostResponseDTO;
@@ -18,6 +23,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/posts")
 @Tag(name = "Посты", description = "Управление постами")
+@Validated
 public class PostController {
     private final PostService postService;
 
@@ -59,7 +65,7 @@ public class PostController {
     @GetMapping("/feed")
     @Operation(summary = "Выводит ленту активности", description = "Выводит ленту постов от пользователей, на которых подписан аутентифицированный пользователь")
     @SecurityRequirement(name = "JWT")
-    public ResponseEntity<List<PostResponseDTO>> showActivityFeed() {
-        return ResponseEntity.ok(postService.findAllByActivityFeed());
+    public ResponseEntity<List<PostResponseDTO>> showActivityFeed(@RequestParam (required = false) @Min(0) Integer page, @RequestParam (required = false) @Min(1) Integer size) {
+        return ResponseEntity.ok(postService.findAllByActivityFeed(page, size));
     }
 }

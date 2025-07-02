@@ -11,11 +11,12 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Schema(description = "Сущность, возвращаемая при GET запросе по адресу /users/{id}")
-public class UserGetDTO {
+public class UserResponseDTO {
     private UserDTO user;
+    @Schema(description = "Сообщение о возможности отправлять пользователю сообщения")
     private String message;
 
-    public UserGetDTO(UserDTO user) {
+    public UserResponseDTO(UserDTO user) {
         this.user = user;
     }
 }

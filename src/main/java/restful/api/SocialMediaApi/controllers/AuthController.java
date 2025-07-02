@@ -9,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import restful.api.SocialMediaApi.dto.auth.JWTAuthResponse;
+import restful.api.SocialMediaApi.dto.auth.LoginRequest;
 import restful.api.SocialMediaApi.dto.auth.RegistrationRequest;
 import restful.api.SocialMediaApi.mappers.UserMapper;
 import restful.api.SocialMediaApi.security.JwtUtil;
@@ -35,7 +36,7 @@ public class AuthController {
 
     @PostMapping("/login")
     @Operation(summary = "Аутентификация пользователя", description = "Аутентификация пользователя и выдача нового токена")
-    public ResponseEntity<JWTAuthResponse> performLogin(@RequestBody RegistrationRequest registrationRequest) {
-        return ResponseEntity.ok(userService.login(registrationRequest));
+    public ResponseEntity<JWTAuthResponse> performLogin(@RequestBody LoginRequest loginRequest) {
+        return ResponseEntity.ok(userService.login(loginRequest));
     }
 }

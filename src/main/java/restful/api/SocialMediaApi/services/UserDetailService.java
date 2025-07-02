@@ -1,5 +1,6 @@
 package restful.api.SocialMediaApi.services;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,13 +12,9 @@ import restful.api.SocialMediaApi.repositories.UserRepository;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class UserDetailService implements UserDetailsService {
     private final UserRepository userRepository;
-
-    @Autowired
-    public UserDetailService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
