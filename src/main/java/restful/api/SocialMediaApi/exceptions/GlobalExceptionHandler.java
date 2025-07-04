@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import restful.api.SocialMediaApi.responces.ErrorResponse;
 
+import java.io.IOException;
+
 @ControllerAdvice
 public class GlobalExceptionHandler {
 

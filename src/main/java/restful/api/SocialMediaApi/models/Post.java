@@ -30,4 +30,8 @@ public class Post {
 
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "image")
+    private Image image;
 }

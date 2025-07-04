@@ -5,14 +5,15 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import restful.api.SocialMediaApi.dto.image.ImageDTO;
 import restful.api.SocialMediaApi.dto.post.PostDTO;
 import restful.api.SocialMediaApi.dto.post.PostResponseDTO;
 import restful.api.SocialMediaApi.services.PostService;
@@ -41,7 +42,18 @@ public class PostController {
         return ResponseEntity.ok(postService.findAll());
     }
 
-    @PostMapping("/add")
+    @PostMapping(value = "/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(summary = "Сохраняет пост", description = "Сохраняет пост в БД, возвращает информацию о посте и пользователе, создавшем этот пост")
+    @SecurityRequirement(name = "JWT")
+    public ResponseEntity<PostResponseDTO> save(
+            @RequestPart(name = "file") MultipartFile file,
+            @RequestParam @NotBlank(message = "Post header cannot be empty") @Size(min = 5, max = 100, message = "Post header must be more than 5 characters and less than 100") String header,
+            @RequestParam @NotBlank(message = "Post body cannot be empty") String body) {
+        PostDTO postDTO = new PostDTO(header, body);
+        return ResponseEntity.ok(postService.save(file, postDTO));
+    }
+
+    @PostMapping( "/add")
     @Operation(summary = "Сохраняет пост", description = "Сохраняет пост в БД, возвращает информацию о посте и пользователе, создавшем этот пост")
     @SecurityRequirement(name = "JWT")
     public ResponseEntity<PostResponseDTO> save(@RequestBody @Valid PostDTO postDTO, BindingResult bindingResult) {
@@ -53,6 +65,18 @@ public class PostController {
     @SecurityRequirement(name = "JWT")
     public ResponseEntity<PostResponseDTO> update(@PathVariable Long id, @RequestBody @Valid PostDTO postDTO, BindingResult bindingResult) {
         return ResponseEntity.ok(postService.update(id, postDTO, bindingResult));
+    }
+
+    @PatchMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(summary = "Обновляет пост", description = "Обновляет пост по ID в пути, возвращает информацию о посте и пользователе, создавшем этот пост. Не меняет пользователя")
+    @SecurityRequirement(name = "JWT")
+    public ResponseEntity<PostResponseDTO> update(
+            @PathVariable Long id,
+            @RequestPart(name = "file") MultipartFile file,
+            @RequestParam @NotBlank(message = "Post header cannot be empty") @Size(min = 5, max = 100, message = "Post header must be more than 5 characters and less than 100") String header,
+            @RequestParam @NotBlank(message = "Post body cannot be empty") String body) {
+        PostDTO postDTO = new PostDTO(header, body);
+        return ResponseEntity.ok(postService.update(id, file, postDTO));
     }
 
     @DeleteMapping("/{id}")
