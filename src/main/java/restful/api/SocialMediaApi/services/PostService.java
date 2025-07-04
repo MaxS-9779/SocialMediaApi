@@ -1,7 +1,5 @@
 package restful.api.SocialMediaApi.services;
 
-import jakarta.validation.Path;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -24,17 +22,13 @@ import restful.api.SocialMediaApi.mappers.PostMapper;
 import restful.api.SocialMediaApi.models.Image;
 import restful.api.SocialMediaApi.models.Post;
 import restful.api.SocialMediaApi.models.User;
-import restful.api.SocialMediaApi.repositories.ImageRepository;
 import restful.api.SocialMediaApi.repositories.PostRepository;
 import restful.api.SocialMediaApi.repositories.SubscribeRepository;
 import restful.api.SocialMediaApi.util.AuthenticatedUser;
 import restful.api.SocialMediaApi.validators.PostValidator;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor

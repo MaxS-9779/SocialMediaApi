@@ -3,20 +3,14 @@ package restful.api.SocialMediaApi.controllers;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import restful.api.SocialMediaApi.dto.auth.JWTAuthResponse;
 import restful.api.SocialMediaApi.dto.auth.LoginRequest;
 import restful.api.SocialMediaApi.dto.auth.RegistrationRequest;
-import restful.api.SocialMediaApi.mappers.UserMapper;
-import restful.api.SocialMediaApi.security.JwtUtil;
 import restful.api.SocialMediaApi.services.UserService;
-import restful.api.SocialMediaApi.validators.UserValidator;
 
 @RestController
 @RequiredArgsConstructor

@@ -1,6 +1,5 @@
 package restful.api.SocialMediaApi.dto.image;
 
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
