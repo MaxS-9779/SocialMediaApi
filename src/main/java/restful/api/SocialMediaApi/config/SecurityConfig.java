@@ -68,36 +68,6 @@ public class SecurityConfig {
                 .build();
     }
 
-//    @Bean
-//    @Order(1)
-//    public SecurityFilterChain publicFilterChain(HttpSecurity http) throws Exception {
-//        return http
-//                .authenticationProvider(authenticationProvider())
-//                .securityMatcher("/auth/registration",
-//                        "/auth/login",
-//                        "/swagger-ui/**",
-//                        "/v3/api-docs/**",
-//                        "/swagger-resources/**",
-//                        "/webjars/**")
-//                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
-//                .csrf(AbstractHttpConfigurer::disable)
-//                .build();
-//    }
-//
-//
-//    @Bean
-//    @Order(2)
-//    public SecurityFilterChain privateFilterChain(HttpSecurity http) throws Exception {
-//        return http
-//                .authenticationProvider(authenticationProvider())
-//                .securityMatcher("/posts", "/users", "/subscribers")
-//                .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
-//                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-//                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                .csrf(AbstractHttpConfigurer::disable)
-//                .build();
-//    }
-
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
