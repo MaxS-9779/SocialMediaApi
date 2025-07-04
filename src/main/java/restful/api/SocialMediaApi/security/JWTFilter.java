@@ -31,11 +31,22 @@ public class JWTFilter extends OncePerRequestFilter {
                                     @NotNull HttpServletResponse response,
                                     @NotNull FilterChain filterChain) throws ServletException, IOException {
 
+        String requestUri = request.getRequestURI();
+
+        if (requestUri.startsWith("/auth/") ||
+            requestUri.startsWith("/swagger-ui/") ||
+            requestUri.startsWith("/v3/api-docs/") ||
+            requestUri.startsWith("/swagger-resources/") ||
+            requestUri.startsWith("/webjars/")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         try {
             var authorizationHeader = request.getHeader("Authorization");
 
-            if (StringUtils.isEmpty(authorizationHeader)|| !authorizationHeader.startsWith("Bearer ")) {
-                sendError(response,"Missing or invalid Authorization header");
+            if (StringUtils.isEmpty(authorizationHeader) || !authorizationHeader.startsWith("Bearer ")) {
+                sendError(response, "Missing or invalid Authorization header");
                 return;
             }
 

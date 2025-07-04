@@ -94,7 +94,6 @@ public class UserService {
 
             user.setCreationDate(LocalDateTime.now());
             user.setPassword(passwordEncoder.encode(user.getPassword()));
-
             userRepository.save(user);
 
             JWTAuthResponse JWTAuthResponse = userMapper.toJWTAuthResponse(user);

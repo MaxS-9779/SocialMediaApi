@@ -37,10 +37,10 @@ public class PostValidator implements Validator {
         }
     }
 
-    public static void bindingResultValidation(BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
+    public static void bindingResultValidation(Errors errors) {
+        if (errors.hasErrors()) {
             StringBuilder errorMsg = new StringBuilder();
-            List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+            List<FieldError> fieldErrors = errors.getFieldErrors();
             for (FieldError fieldError : fieldErrors) {
                 errorMsg.append(fieldError.getField())
                         .append(" - ").append(fieldError.getDefaultMessage())

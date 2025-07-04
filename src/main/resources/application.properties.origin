@@ -9,3 +9,5 @@ spring.datasource.username=${username}
 spring.datasource.password=${password}
 
 jwt_secret=secret
+
+app.upload.dir=path/dir/upload/

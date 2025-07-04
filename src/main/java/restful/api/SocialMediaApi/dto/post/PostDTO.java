@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import restful.api.SocialMediaApi.dto.image.ImageDTO;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,4 +22,11 @@ public class PostDTO {
     @NotBlank(message = "Post body cannot be empty")
     @Schema(description = "Тело поста", example = "Some interesting text about animals")
     private String body;
+
+    private ImageDTO image;
+
+    public PostDTO(String header, String body) {
+        this.header = header;
+        this.body = body;
+    }
 }

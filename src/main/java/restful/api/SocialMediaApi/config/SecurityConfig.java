@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -49,7 +50,6 @@ public class SecurityConfig {
     }
 
     @Bean
-
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
@@ -62,11 +62,41 @@ public class SecurityConfig {
                                 "/swagger-resources/**",
                                 "/webjars/**").permitAll()
                         .anyRequest().authenticated())
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
+
+//    @Bean
+//    @Order(1)
+//    public SecurityFilterChain publicFilterChain(HttpSecurity http) throws Exception {
+//        return http
+//                .authenticationProvider(authenticationProvider())
+//                .securityMatcher("/auth/registration",
+//                        "/auth/login",
+//                        "/swagger-ui/**",
+//                        "/v3/api-docs/**",
+//                        "/swagger-resources/**",
+//                        "/webjars/**")
+//                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
+//                .csrf(AbstractHttpConfigurer::disable)
+//                .build();
+//    }
+//
+//
+//    @Bean
+//    @Order(2)
+//    public SecurityFilterChain privateFilterChain(HttpSecurity http) throws Exception {
+//        return http
+//                .authenticationProvider(authenticationProvider())
+//                .securityMatcher("/posts", "/users", "/subscribers")
+//                .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
+//                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+//                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                .csrf(AbstractHttpConfigurer::disable)
+//                .build();
+//    }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
