@@ -1,7 +1,7 @@
 package restful.api.SocialMediaApi.security;
 
 import org.springframework.security.core.GrantedAuthority;
-import restful.api.SocialMediaApi.models.User;
+import restful.api.SocialMediaApi.entity.User;
 
 import java.util.Collection;
 import java.util.List;

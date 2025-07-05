@@ -1,4 +1,4 @@
-package restful.api.SocialMediaApi.services;
+package restful.api.SocialMediaApi.services.subscribe;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -9,8 +9,8 @@ import restful.api.SocialMediaApi.dto.subscribe.SubscribeDTO;
 import restful.api.SocialMediaApi.exceptions.EntityNotFoundException;
 import restful.api.SocialMediaApi.exceptions.ValidateException;
 import restful.api.SocialMediaApi.mappers.SubscribeMapper;
-import restful.api.SocialMediaApi.models.Subscribe;
-import restful.api.SocialMediaApi.models.User;
+import restful.api.SocialMediaApi.entity.Subscribe;
+import restful.api.SocialMediaApi.entity.User;
 import restful.api.SocialMediaApi.repositories.SubscribeRepository;
 import restful.api.SocialMediaApi.repositories.UserRepository;
 import restful.api.SocialMediaApi.util.AuthenticatedUser;

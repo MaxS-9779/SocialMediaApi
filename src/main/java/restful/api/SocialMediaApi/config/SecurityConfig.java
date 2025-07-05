@@ -19,7 +19,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import restful.api.SocialMediaApi.repositories.UserRepository;
 import restful.api.SocialMediaApi.security.JWTFilter;
-import restful.api.SocialMediaApi.services.UserDetailService;
+import restful.api.SocialMediaApi.security.CustomUserDetailService;
 
 @Configuration
 @EnableWebSecurity
@@ -31,7 +31,7 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return new UserDetailService(userRepository);
+        return new CustomUserDetailService(userRepository);
     }
 
     @Bean

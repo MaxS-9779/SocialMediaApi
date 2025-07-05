@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import restful.api.SocialMediaApi.dto.subscribe.SubscribeDTO;
-import restful.api.SocialMediaApi.services.SubscribeService;
+import restful.api.SocialMediaApi.services.subscribe.SubscribeService;
 
 import java.util.List;
 

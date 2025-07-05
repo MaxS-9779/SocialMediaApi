@@ -7,7 +7,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.Validator;
 import restful.api.SocialMediaApi.exceptions.EntityNotFoundException;
 import restful.api.SocialMediaApi.exceptions.ValidateException;
-import restful.api.SocialMediaApi.models.Post;
+import restful.api.SocialMediaApi.entity.Post;
 import restful.api.SocialMediaApi.repositories.PostRepository;
 
 import java.util.List;

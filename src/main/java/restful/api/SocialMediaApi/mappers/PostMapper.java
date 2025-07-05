@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import restful.api.SocialMediaApi.dto.post.PostDTO;
 import restful.api.SocialMediaApi.dto.post.PostResponseDTO;
 import restful.api.SocialMediaApi.dto.user.UserDTO;
-import restful.api.SocialMediaApi.models.Post;
-import restful.api.SocialMediaApi.models.User;
+import restful.api.SocialMediaApi.entity.Post;
+import restful.api.SocialMediaApi.entity.User;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public abstract class PostMapper {

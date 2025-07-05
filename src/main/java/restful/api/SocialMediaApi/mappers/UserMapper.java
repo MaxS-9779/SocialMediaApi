@@ -6,7 +6,7 @@ import org.mapstruct.MappingConstants;
 import restful.api.SocialMediaApi.dto.auth.JWTAuthResponse;
 import restful.api.SocialMediaApi.dto.auth.RegistrationRequest;
 import restful.api.SocialMediaApi.dto.user.UserDTO;
-import restful.api.SocialMediaApi.models.User;
+import restful.api.SocialMediaApi.entity.User;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public abstract class UserMapper {

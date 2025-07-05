@@ -1,10 +1,10 @@
-package restful.api.SocialMediaApi.services;
+package restful.api.SocialMediaApi.services.post;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import restful.api.SocialMediaApi.dto.image.ImageDTO;
-import restful.api.SocialMediaApi.models.Image;
+import restful.api.SocialMediaApi.entity.Image;
 
 import java.io.IOException;
 import java.nio.file.Files;

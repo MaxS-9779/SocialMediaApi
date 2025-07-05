@@ -14,7 +14,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import restful.api.SocialMediaApi.services.UserDetailService;
 
 
 import java.io.IOException;
@@ -23,7 +22,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JWTFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
-    private final UserDetailService userDetailsService;
+    private final CustomUserDetailService userDetailsService;
 
     @Override
     protected void doFilterInternal(@NotNull HttpServletRequest request,

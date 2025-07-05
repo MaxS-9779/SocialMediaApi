@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import restful.api.SocialMediaApi.dto.post.PostDTO;
 import restful.api.SocialMediaApi.dto.post.PostResponseDTO;
-import restful.api.SocialMediaApi.services.PostService;
+import restful.api.SocialMediaApi.services.post.PostService;
 
 import java.util.List;
 

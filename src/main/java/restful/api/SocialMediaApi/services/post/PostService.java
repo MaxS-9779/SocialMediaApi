@@ -1,4 +1,4 @@
-package restful.api.SocialMediaApi.services;
+package restful.api.SocialMediaApi.services.post;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -19,9 +19,9 @@ import restful.api.SocialMediaApi.exceptions.PostUpdateException;
 import restful.api.SocialMediaApi.exceptions.ValidateException;
 import restful.api.SocialMediaApi.mappers.ImageMapper;
 import restful.api.SocialMediaApi.mappers.PostMapper;
-import restful.api.SocialMediaApi.models.Image;
-import restful.api.SocialMediaApi.models.Post;
-import restful.api.SocialMediaApi.models.User;
+import restful.api.SocialMediaApi.entity.Image;
+import restful.api.SocialMediaApi.entity.Post;
+import restful.api.SocialMediaApi.entity.User;
 import restful.api.SocialMediaApi.repositories.PostRepository;
 import restful.api.SocialMediaApi.repositories.SubscribeRepository;
 import restful.api.SocialMediaApi.util.AuthenticatedUser;

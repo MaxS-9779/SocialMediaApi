@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import restful.api.SocialMediaApi.dto.user.UserDTO;
 import restful.api.SocialMediaApi.dto.user.UserResponseDTO;
-import restful.api.SocialMediaApi.services.UserService;
+import restful.api.SocialMediaApi.services.user.UserService;
 
 import java.util.List;
 

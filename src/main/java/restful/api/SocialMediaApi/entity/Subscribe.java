@@ -1,4 +1,4 @@
-package restful.api.SocialMediaApi.models;
+package restful.api.SocialMediaApi.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

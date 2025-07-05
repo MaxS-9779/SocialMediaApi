@@ -5,7 +5,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.Named;
 import restful.api.SocialMediaApi.dto.image.ImageDTO;
-import restful.api.SocialMediaApi.models.Image;
+import restful.api.SocialMediaApi.entity.Image;
 
 import java.io.IOException;
 import java.nio.file.Files;

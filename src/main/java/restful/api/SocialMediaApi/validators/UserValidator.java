@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import restful.api.SocialMediaApi.models.User;
+import restful.api.SocialMediaApi.entity.User;
 import restful.api.SocialMediaApi.repositories.UserRepository;
 
 @Component
