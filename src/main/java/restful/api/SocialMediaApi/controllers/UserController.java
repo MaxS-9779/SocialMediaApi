@@ -1,5 +1,6 @@
 package restful.api.SocialMediaApi.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -18,17 +19,19 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/users")
 @Tag(name = "Пользователи", description = "Взаимодействие с пользователями")
+@SecurityRequirement(name = "JWT")
 public class UserController {
     private final UserService userService;
 
     @GetMapping("")
-    @SecurityRequirement(name = "JWT")
+    @Operation(summary = "Возвращает всех пользователей", description = "Выводит из БД всех пользователей")
+
     public ResponseEntity<List<UserDTO>> index() {
         return ResponseEntity.ok(userService.findAll());
     }
 
     @GetMapping("/{id}")
-    @SecurityRequirement(name = "JWT")
+    @Operation(summary = "Возвращает пользователя по ID", description = "Выводит пользователя, а также сообщение о возможности переписки с этим пользователем")
     public ResponseEntity<UserResponseDTO> show(@PathVariable Long id) {
         return ResponseEntity.ok(userService.findById(id));
     }

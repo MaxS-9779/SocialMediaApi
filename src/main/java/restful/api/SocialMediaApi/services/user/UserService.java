@@ -19,7 +19,6 @@ import restful.api.SocialMediaApi.util.AuthenticatedUser;
 import restful.api.SocialMediaApi.validators.UserValidator;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -57,14 +56,6 @@ public class UserService {
         });
 
         return userResponseDTO;
-    }
-
-    public Optional<User> findByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
-
-    public Optional<User> findByUsername(String username) {
-        return userRepository.findByUsername(username);
     }
 
     @Transactional

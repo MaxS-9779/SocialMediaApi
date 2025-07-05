@@ -23,14 +23,14 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/registration")
-    @Operation(summary = "Регистрация нового пользователя", description = "Сохранение пользователя в БД, выдача ID пользователя и токена")
+    @Operation(summary = "Регистрация нового пользователя", description = "Сохранение пользователя в БД, выдача JWTAuthResponse (id, username, email, token)")
     public ResponseEntity<JWTAuthResponse> performRegistration(@Valid @RequestBody RegistrationRequest registrationRequest,
                                                                BindingResult bindingResult) {
         return ResponseEntity.ok(authService.save(registrationRequest, bindingResult));
     }
 
     @PostMapping("/login")
-    @Operation(summary = "Аутентификация пользователя", description = "Аутентификация пользователя и выдача нового токена")
+    @Operation(summary = "Аутентификация пользователя", description = "Аутентификация пользователя, выдача JWTAuthResponse (id, username, email, token(новый))")
     public ResponseEntity<JWTAuthResponse> performLogin(@RequestBody LoginRequest loginRequest) {
         return ResponseEntity.ok(authService.login(loginRequest));
     }

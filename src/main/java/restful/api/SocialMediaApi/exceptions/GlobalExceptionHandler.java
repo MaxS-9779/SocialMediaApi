@@ -34,7 +34,7 @@ public class GlobalExceptionHandler {
                 ex.getMessage(),
                 System.currentTimeMillis()
         );
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(ValidateException.class)
